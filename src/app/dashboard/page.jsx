@@ -10,12 +10,20 @@ import Button from '@/components/ui/Button';
 import CreateDocumentButton from '@/components/dashboard/CreateDocumentButton';
 import DocumentList from '@/components/dashboard/DocumentList';
 import FileUploadModal from '@/components/dashboard/FileUploadModal';
+import ShareModal from '@/components/editor/ShareModal';
 
 export default function DashboardPage() {
   const { user, loading: authLoading, logout } = useAuth();
   const { ownedDocs, sharedDocs, loading: docsLoading, refetch } = useDocuments();
   const router = useRouter();
   const [uploadModalOpen, setUploadModalOpen] = useState(false);
+  const [shareModalOpen, setShareModalOpen] = useState(false);
+  const [docToShare, setDocToShare] = useState(null);
+
+  const handleShareClick = (doc) => {
+    setDocToShare(doc);
+    setShareModalOpen(true);
+  };
 
   // Redirect to login if not authenticated
   useEffect(() => {
@@ -84,19 +92,30 @@ export default function DashboardPage() {
           </Button>
         </div>
 
-        {/* Document list */}
         <DocumentList
           ownedDocs={ownedDocs}
           sharedDocs={sharedDocs}
           loading={docsLoading}
           onRefetch={refetch}
+          onShare={handleShareClick}
         />
       </main>
 
-      {/* File upload modal */}
       <FileUploadModal
         isOpen={uploadModalOpen}
         onClose={() => setUploadModalOpen(false)}
+      />
+
+      {/* Share modal for dashboard */}
+      <ShareModal
+        isOpen={shareModalOpen}
+        onClose={() => {
+          setShareModalOpen(false);
+          setDocToShare(null);
+        }}
+        document={docToShare}
+        onShareUpdate={refetch}
+        currentUserId={user.uid}
       />
     </div>
   );

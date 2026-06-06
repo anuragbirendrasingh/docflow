@@ -6,7 +6,7 @@ import toast from 'react-hot-toast';
 import DocumentCard from '@/components/dashboard/DocumentCard';
 import { updateDocumentTitle, deleteDocument } from '@/lib/firestore';
 
-export default function DocumentList({ ownedDocs, sharedDocs, loading, onRefetch }) {
+export default function DocumentList({ ownedDocs, sharedDocs, loading, onRefetch, onShare }) {
   const [activeTab, setActiveTab] = useState('owned');
 
   const docs = activeTab === 'owned' ? ownedDocs : sharedDocs;
@@ -43,9 +43,11 @@ export default function DocumentList({ ownedDocs, sharedDocs, loading, onRefetch
   };
 
   const handleShare = (doc) => {
-    // This callback will be handled by the parent (dashboard page)
-    // to open a ShareModal. For now we trigger the onShare prop if passed.
-    toast('Share feature coming soon', { icon: '🔗' });
+    if (onShare) {
+      onShare(doc);
+    } else {
+      toast('Share feature coming soon', { icon: '🔗' });
+    }
   };
 
   // Skeleton loading cards
