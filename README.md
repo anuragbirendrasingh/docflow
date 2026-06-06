@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# DocFlow
 
-## Getting Started
+DocFlow is a modern, fast, and collaborative document editor, a mini Google Docs clone built to provide an excellent writing and collaboration experience.
 
-First, run the development server:
+## Features
+- **Rich Text Editing**: Powered by Tiptap with full formatting capabilities (bold, italic, headings, alignment, lists, and more).
+- **Auto-save**: Edits are automatically saved as you type.
+- **Collaboration & Sharing**: Share documents with others via their email address.
+- **File Parsing**: Upload and parse `.txt`, `.md`, and `.docx` files into the editor.
+- **Authentication**: Fully integrated user accounts via Firebase Auth.
+- **Dashboard**: Keep track of "My Documents" and "Shared with Me" files easily.
 
+## Tech Stack
+- **Framework**: Next.js 16 (App Router)
+- **Language**: JavaScript / JSX
+- **Styling**: Tailwind CSS v4
+- **Editor**: Tiptap (StarterKit, Underline, TextAlign, Highlight, Typography, Placeholder)
+- **Database**: Firebase Firestore
+- **Auth**: Firebase Authentication (Email/Password)
+- **File Parsing**: Mammoth (for `.docx`), native for `.txt`/`.md`
+- **Testing**: Jest + React Testing Library
+- **Deployment**: Vercel ready
+
+## Prerequisites
+- Node.js 18+ and npm
+- A Firebase Project (with Authentication and Firestore enabled)
+
+## Local Setup
+
+1. **Clone and Install**
+   ```bash
+   git clone <repo-url>
+   cd docflow
+   npm install
+   ```
+
+2. **Configure Firebase**
+   - Create a project on [Firebase Console](https://console.firebase.google.com/).
+   - Enable **Authentication** (Email/Password provider).
+   - Enable **Firestore Database** and use the rules provided in `firestore.rules`.
+   - Copy the `.env.local.example` file to `.env.local` and add your Firebase credentials.
+
+3. **Run the Development Server**
+   ```bash
+   npm run dev
+   ```
+   Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+## Running Tests
+To run the file parser automated tests:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm test
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Supported File Upload Types
+- `.txt` (Plain text)
+- `.md` (Markdown, parsed as text lines)
+- `.docx` (Microsoft Word documents)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Test Credentials
+For review purposes, you can use these accounts if created in the system, or just sign up with any test emails:
+- **Test User 1**: `user1@example.com` / `password123`
+- **Test User 2**: `user2@example.com` / `password123`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Live Deployment
+[ADD YOUR VERCEL URL HERE]
