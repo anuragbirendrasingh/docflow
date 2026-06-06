@@ -1,9 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import { X, UserPlus, Loader2, Trash2 } from 'lucide-react';
+import { UserPlus, Loader2, Trash2 } from 'lucide-react';
 import { getUserByEmail, shareDocument, removeShare } from '@/lib/firestore';
 import toast from 'react-hot-toast';
+import Modal from '@/components/ui/Modal';
+import Input from '@/components/ui/Input';
+import Button from '@/components/ui/Button';
 
 /**
  * Validate an email address format.
@@ -112,85 +115,58 @@ export default function ShareModal({
   const sharedUsers = doc.sharedWith || [];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
-      {/* Backdrop */}
-      <div
-        className="absolute inset-0 bg-black/50"
-        onClick={onClose}
-      />
-
-      {/* Modal */}
-      <div className="relative bg-white rounded-xl shadow-2xl w-full max-w-md mx-4 p-6">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-lg font-semibold text-gray-900">Share Document</h2>
-          <button
-            type="button"
-            onClick={onClose}
-            className="p-1 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors cursor-pointer"
-          >
-            <X className="w-5 h-5" />
-          </button>
-        </div>
-
+    <Modal isOpen={isOpen} onClose={onClose} title="Share Document">
+      <div className="space-y-6">
         {/* Share Form */}
-        <form onSubmit={handleShare} className="mb-6">
-          <label
-            htmlFor="share-email"
-            className="block text-sm font-medium text-gray-700 mb-1.5"
-          >
-            Enter email address to share with
-          </label>
-          <div className="flex gap-2">
-            <input
-              id="share-email"
-              type="email"
-              value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-                setError('');
-              }}
-              placeholder="user@example.com"
-              className="flex-1 px-4 py-2.5 border border-gray-300 bg-white text-gray-900 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-              disabled={sharing}
-            />
-            <button
+        <form onSubmit={handleShare} className="space-y-4">
+          <div className="flex items-start gap-3">
+            <div className="flex-1">
+              <Input
+                id="share-email"
+                type="email"
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  setError('');
+                }}
+                placeholder="user@example.com"
+                disabled={sharing}
+                error={error}
+              />
+            </div>
+            <Button
               type="submit"
+              variant="primary"
               disabled={sharing || !email.trim()}
-              className="inline-flex items-center gap-1.5 px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-lg hover:bg-indigo-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+              loading={sharing}
+              className="mt-1"
             >
-              {sharing ? (
-                <Loader2 className="w-4 h-4 animate-spin" />
-              ) : (
-                <UserPlus className="w-4 h-4" />
-              )}
+              <UserPlus className="w-4 h-4" />
               Share
-            </button>
+            </Button>
           </div>
-
-          {error && (
-            <p className="mt-2 text-sm text-red-600">{error}</p>
-          )}
         </form>
 
         {/* Shared Users List */}
         <div>
-          <h3 className="text-sm font-medium text-gray-700 mb-3">
+          <h3 className="text-sm font-semibold text-slate-300 mb-3">
             Shared with ({sharedUsers.length})
           </h3>
 
           {sharedUsers.length === 0 ? (
-            <p className="text-sm text-gray-400 py-3 text-center">
-              This document hasn&apos;t been shared with anyone yet.
-            </p>
+            <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-4 text-center">
+              <p className="text-sm text-slate-400">
+                This document hasn't been shared with anyone yet.
+              </p>
+            </div>
           ) : (
-            <ul className="space-y-2 max-h-48 overflow-y-auto">
+            <ul className="space-y-2 max-h-48 overflow-y-auto pr-1">
               {sharedUsers.map((sharedEmail) => (
                 <li
                   key={sharedEmail}
-                  className="flex items-center justify-between py-2 px-3 bg-gray-50 rounded-lg"
+                  className="flex items-center justify-between py-2.5 px-4 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl"
                 >
-                  <span className="text-sm text-gray-700 truncate">
+                  <span className="text-sm font-medium text-slate-900 dark:text-slate-200 truncate">
                     {sharedEmail}
                   </span>
 
@@ -199,7 +175,7 @@ export default function ShareModal({
                       type="button"
                       onClick={() => handleRemoveShare(sharedEmail)}
                       disabled={removingEmail === sharedEmail}
-                      className="ml-2 p-1 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded transition-colors cursor-pointer disabled:opacity-50"
+                      className="p-1.5 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-lg transition-colors cursor-pointer disabled:opacity-50"
                       title={`Remove access for ${sharedEmail}`}
                     >
                       {removingEmail === sharedEmail ? (
@@ -216,12 +192,13 @@ export default function ShareModal({
         </div>
 
         {/* Owner info */}
-        <div className="mt-4 pt-4 border-t border-gray-100">
-          <p className="text-xs text-gray-400">
-            Owner: {doc.ownerEmail}
-          </p>
+        <div className="pt-4 border-t border-slate-800 flex items-center justify-between">
+          <span className="text-xs font-medium text-slate-500">Document Owner</span>
+          <span className="text-xs font-medium text-primary-400 bg-primary-900/30 px-2 py-1 rounded-md border border-primary-800">
+            {doc.ownerEmail}
+          </span>
         </div>
       </div>
-    </div>
+    </Modal>
   );
 }

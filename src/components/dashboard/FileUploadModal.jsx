@@ -105,7 +105,7 @@ export default function FileUploadModal({ isOpen, onClose }) {
 
   return (
     <Modal isOpen={isOpen} onClose={handleClose} title="Import File">
-      <div className="space-y-4">
+      <div className="space-y-5">
         {/* Drag and drop zone */}
         <div
           onClick={() => fileInputRef.current?.click()}
@@ -113,20 +113,22 @@ export default function FileUploadModal({ isOpen, onClose }) {
           onDragLeave={handleDragLeave}
           onDrop={handleDrop}
           className={`
-            flex flex-col items-center justify-center rounded-xl border-2 border-dashed
-            px-6 py-10 text-center cursor-pointer transition-colors
+            flex flex-col items-center justify-center rounded-2xl border-2 border-dashed
+            px-8 py-16 text-center cursor-pointer transition-all duration-300
             ${
               isDragging
-                ? 'border-indigo-400 bg-indigo-50'
-                : 'border-gray-300 hover:border-gray-400 bg-gray-50'
+                ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20 scale-105'
+                : 'border-slate-300 dark:border-slate-700 hover:border-primary-500 bg-slate-50 dark:bg-slate-800/50'
             }
           `}
         >
-          <Upload className="mb-3 h-8 w-8 text-gray-400" />
-          <p className="text-sm font-medium text-gray-700">
+          <div className="rounded-full bg-white dark:bg-slate-900 p-4 shadow-sm mb-6 border border-slate-200 dark:border-slate-700">
+            <Upload className="h-8 w-8 text-primary-500 dark:text-primary-400" />
+          </div>
+          <p className="text-lg font-bold text-slate-900 dark:text-slate-200">
             Drag & drop a file here or click to browse
           </p>
-          <p className="mt-1 text-xs text-gray-500">
+          <p className="mt-2 text-sm font-medium text-slate-500 dark:text-slate-400">
             Supported formats: .txt, .md, .docx
           </p>
         </div>
@@ -142,14 +144,16 @@ export default function FileUploadModal({ isOpen, onClose }) {
 
         {/* Selected file preview */}
         {selectedFile && (
-          <div className="flex items-center justify-between rounded-lg border border-gray-200 bg-gray-50 px-4 py-3">
-            <div className="flex items-center gap-3">
-              <File className="h-5 w-5 text-indigo-500" />
+          <div className="mt-6 flex items-center justify-between rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 px-5 py-4 shadow-sm transition-all duration-300 animate-in fade-in slide-in-from-bottom-2">
+            <div className="flex items-center gap-4">
+              <div className="rounded-lg bg-primary-100 dark:bg-primary-900/50 p-2 border border-primary-200 dark:border-primary-800">
+                <File className="h-6 w-6 text-primary-600 dark:text-primary-400" />
+              </div>
               <div>
-                <p className="text-sm font-medium text-gray-900 truncate max-w-[250px]">
+                <p className="text-sm font-bold text-slate-900 dark:text-slate-200 truncate max-w-[220px]">
                   {selectedFile.name}
                 </p>
-                <p className="text-xs text-gray-500">
+                <p className="text-xs font-semibold text-slate-500">
                   {formatFileSize(selectedFile.size)}
                 </p>
               </div>
@@ -159,26 +163,26 @@ export default function FileUploadModal({ isOpen, onClose }) {
                 e.stopPropagation();
                 setSelectedFile(null);
               }}
-              className="rounded p-1 text-gray-400 hover:bg-gray-200 hover:text-gray-600 transition-colors"
+              className="rounded-full p-2.5 text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-slate-200 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500"
             >
-              <X className="h-4 w-4" />
+              <X className="h-5 w-5" />
             </button>
           </div>
         )}
 
         {/* Upload button */}
-        <div className="flex justify-end gap-3 pt-2">
-          <Button variant="secondary" onClick={handleClose} size="md">
+        <div className="flex justify-end gap-3 pt-6 mt-6 border-t border-slate-200 dark:border-slate-800">
+          <Button variant="ghost" onClick={handleClose} size="lg">
             Cancel
           </Button>
           <Button
             variant="primary"
             onClick={handleUpload}
-            size="md"
+            size="lg"
             loading={uploading}
             disabled={!selectedFile}
           >
-            <Upload className="h-4 w-4" />
+            <Upload className="h-5 w-5" />
             Upload & Import
           </Button>
         </div>

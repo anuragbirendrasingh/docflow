@@ -18,10 +18,13 @@ const editorStyles = `
   .ProseMirror {
     outline: none;
     min-height: 70vh;
-    color: #0f172a; /* Slate 900 for extremely visible, crisp text */
+    color: #0f172a;
     font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     font-size: 1.05rem;
     line-height: 1.7;
+  }
+  .dark .ProseMirror {
+    color: #f1f5f9;
   }
   .ProseMirror p {
     margin-bottom: 1.25rem;
@@ -32,8 +35,11 @@ const editorStyles = `
     margin-top: 2.5rem;
     margin-bottom: 1.25rem;
     line-height: 1.2;
-    color: #020617;
+    color: #0f172a;
     letter-spacing: -0.025em;
+  }
+  .dark .ProseMirror h1 {
+    color: #ffffff;
   }
   .ProseMirror h1:first-child {
     margin-top: 0;
@@ -44,8 +50,11 @@ const editorStyles = `
     margin-top: 2rem;
     margin-bottom: 1rem;
     line-height: 1.3;
-    color: #0f172a;
+    color: #1e293b;
     letter-spacing: -0.015em;
+  }
+  .dark .ProseMirror h2 {
+    color: #e2e8f0;
   }
   .ProseMirror h3 {
     font-size: 1.375rem;
@@ -53,7 +62,10 @@ const editorStyles = `
     margin-top: 1.75rem;
     margin-bottom: 0.75rem;
     line-height: 1.4;
-    color: #1e293b;
+    color: #334155;
+  }
+  .dark .ProseMirror h3 {
+    color: #cbd5e1;
   }
   .ProseMirror ul {
     list-style-type: disc;
@@ -80,6 +92,11 @@ const editorStyles = `
     padding-bottom: 0.75rem;
     border-radius: 0 0.5rem 0.5rem 0;
   }
+  .dark .ProseMirror blockquote {
+    border-color: #334155;
+    color: #94a3b8;
+    background: #0f172a;
+  }
   .ProseMirror code {
     background: #f1f5f9;
     padding: 0.2rem 0.4rem;
@@ -87,6 +104,10 @@ const editorStyles = `
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     font-size: 0.875em;
     color: #db2777;
+  }
+  .dark .ProseMirror code {
+    background: #1e293b;
+    color: #f472b6;
   }
   .ProseMirror pre {
     background: #0f172a;
@@ -97,6 +118,9 @@ const editorStyles = `
     margin-bottom: 1.5rem;
     overflow-x: auto;
     box-shadow: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
+  }
+  .dark .ProseMirror pre {
+    background: #000000;
   }
   .ProseMirror pre code {
     background: none;
@@ -110,10 +134,17 @@ const editorStyles = `
     padding: 0.15rem 0.25rem;
     border-radius: 0.25rem;
   }
+  .dark .ProseMirror mark {
+    background: #713f12;
+    color: #fef9c3;
+  }
   .ProseMirror hr {
     border: none;
     border-top: 2px solid #e2e8f0;
     margin: 2.5rem 0;
+  }
+  .dark .ProseMirror hr {
+    border-color: #1e293b;
   }
   .ProseMirror .is-editor-empty:first-child::before {
     color: #94a3b8;
@@ -121,6 +152,9 @@ const editorStyles = `
     float: left;
     height: 0;
     pointer-events: none;
+  }
+  .dark .ProseMirror .is-editor-empty:first-child::before {
+    color: #475569;
   }
 `;
 
@@ -145,8 +179,8 @@ export default function TiptapEditor({ content, onUpdate, editable = true }) {
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: editorStyles }} />
-      <div className="max-w-[900px] mx-auto pb-16">
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+      <div className="w-full pb-16">
+        <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden transition-colors duration-300">
           <EditorToolbar editor={editor} />
           <div className="px-8 sm:px-16 md:px-24 py-12 md:py-16 min-h-[70vh]">
             <EditorContent editor={editor} />

@@ -18,33 +18,49 @@ export default function LandingPage() {
 
   if (loading) {
     return (
-      <div className="flex h-screen items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-indigo-600" />
+      <div className="flex h-screen items-center justify-center bg-slate-50">
+        <Loader2 className="h-10 w-10 animate-spin text-primary-600" />
       </div>
     );
   }
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-gray-50 px-4">
-      <div className="max-w-3xl text-center">
-        <h1 className="mb-6 text-5xl font-extrabold tracking-tight text-gray-900 sm:text-6xl">
-          Welcome to <span className="text-indigo-600">DocFlow</span>
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col items-center justify-center relative overflow-hidden transition-colors duration-300">
+      {/* Decorative ambient background */}
+      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-1/2 -right-1/4 w-[1000px] h-[1000px] rounded-full bg-primary-100/50 dark:bg-primary-900/20 blur-3xl opacity-50" />
+        <div className="absolute -bottom-1/2 -left-1/4 w-[800px] h-[800px] rounded-full bg-indigo-100/50 dark:bg-indigo-900/20 blur-3xl opacity-50" />
+      </div>
+
+      <div className="z-10 text-center max-w-4xl px-6">
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-50 dark:bg-primary-500/10 text-primary-600 dark:text-primary-400 font-semibold text-sm mb-8 ring-1 ring-primary-500/20 shadow-sm animate-in fade-in slide-in-from-bottom-4 duration-500">
+          <span className="flex h-2 w-2 rounded-full bg-primary-500 animate-pulse"></span>
+          DocFlow is now in Beta
+        </div>
+        
+        <h1 className="text-6xl sm:text-7xl font-extrabold text-slate-900 dark:text-slate-100 tracking-tight mb-8 animate-in fade-in slide-in-from-bottom-6 duration-700">
+          The simple, beautiful way to{' '}
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-500 to-indigo-500">
+            write together.
+          </span>
         </h1>
-        <p className="mx-auto mb-10 max-w-2xl text-lg text-gray-600">
-          A modern, fast, and collaborative document editor. Create, edit, and share documents with ease. Built with Next.js, Firebase, and Tiptap.
+        
+        <p className="text-xl sm:text-2xl text-slate-600 dark:text-slate-400 mb-16 max-w-2xl mx-auto leading-relaxed animate-in fade-in slide-in-from-bottom-8 duration-700 delay-150">
+          Create, edit, and share documents in a lightning-fast workspace designed for pure focus.
         </p>
-        <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
+
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-5 animate-in fade-in slide-in-from-bottom-10 duration-700 delay-300">
           <Link
             href="/signup"
-            className="rounded-lg bg-indigo-600 px-8 py-3 font-semibold text-white transition hover:bg-indigo-700"
+            className="w-full sm:w-auto px-10 py-4 bg-primary-600 hover:bg-primary-500 text-white rounded-full text-lg font-bold transition-all shadow-soft hover:shadow-hover hover:-translate-y-1 ring-4 ring-primary-50 dark:ring-primary-900/30"
           >
-            Get Started
+            Get Started for Free
           </Link>
           <Link
             href="/login"
-            className="rounded-lg border border-gray-300 bg-white px-8 py-3 font-semibold text-gray-700 transition hover:bg-gray-50"
+            className="w-full sm:w-auto px-10 py-4 bg-white dark:bg-slate-900 text-slate-900 dark:text-white hover:bg-slate-50 dark:hover:bg-slate-800 rounded-full text-lg font-bold transition-all shadow-soft hover:shadow-hover hover:-translate-y-1 ring-1 ring-slate-200 dark:ring-slate-800"
           >
-            Log in
+            Log in to Account
           </Link>
         </div>
       </div>

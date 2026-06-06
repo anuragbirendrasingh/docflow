@@ -53,18 +53,18 @@ export default function DocumentList({ ownedDocs, sharedDocs, loading, onRefetch
   // Skeleton loading cards
   if (loading) {
     return (
-      <div>
+      <div className="animate-pulse">
         {/* Tabs */}
-        <div className="mb-6 flex gap-6 border-b border-gray-200">
-          <div className="h-10 w-32 animate-pulse rounded bg-gray-200" />
-          <div className="h-10 w-32 animate-pulse rounded bg-gray-200" />
+        <div className="mb-8 flex gap-4 border-b border-slate-200 dark:border-slate-800 pb-4">
+          <div className="h-11 w-36 rounded-full bg-slate-200 dark:bg-slate-800" />
+          <div className="h-11 w-40 rounded-full bg-slate-200 dark:bg-slate-800" />
         </div>
         {/* Skeleton cards */}
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {[1, 2, 3].map((i) => (
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {[1, 2, 3, 4].map((i) => (
             <div
               key={i}
-              className="h-40 animate-pulse rounded-xl bg-gray-200"
+              className="h-44 rounded-3xl bg-slate-200 dark:bg-slate-800/50"
             />
           ))}
         </div>
@@ -73,58 +73,54 @@ export default function DocumentList({ ownedDocs, sharedDocs, loading, onRefetch
   }
 
   return (
-    <div>
+    <div className="pb-16 mt-8">
       {/* Tabs */}
-      <div className="mb-6 flex gap-6 border-b border-gray-200">
+      <div className="mb-12 flex space-x-4 sm:space-x-6 border-b border-slate-200 dark:border-slate-800 pb-5 overflow-x-auto no-scrollbar">
         <button
           onClick={() => setActiveTab('owned')}
-          className={`pb-3 text-sm font-medium transition-colors ${
+          className={`flex items-center gap-3 rounded-full px-8 py-3.5 text-base font-bold transition-all duration-300 ${
             activeTab === 'owned'
-              ? 'border-b-2 border-indigo-600 text-indigo-600'
-              : 'text-gray-500 hover:text-gray-700'
+              ? 'bg-primary-50 dark:bg-primary-600/20 text-primary-700 dark:text-primary-400 shadow-sm ring-1 ring-primary-500/50'
+              : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 ring-1 ring-slate-200 dark:ring-slate-800 hover:ring-slate-300 dark:hover:ring-slate-600 hover:-translate-y-0.5'
           }`}
         >
           My Documents
-          {ownedDocs.length > 0 && (
-            <span className="ml-2 rounded-full bg-gray-100 px-2 py-0.5 text-xs text-gray-600">
-              {ownedDocs.length}
-            </span>
-          )}
+          <span
+            className={`ml-2 flex h-6 w-6 items-center justify-center rounded-full text-xs font-extrabold ${
+              activeTab === 'owned'
+                ? 'bg-primary-100 dark:bg-primary-500/20 text-primary-800 dark:text-primary-400'
+                : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400'
+            }`}
+          >
+            {ownedDocs.length}
+          </span>
         </button>
         <button
           onClick={() => setActiveTab('shared')}
-          className={`pb-3 text-sm font-medium transition-colors ${
+          className={`flex items-center gap-3 rounded-full px-8 py-3.5 text-base font-bold transition-all duration-300 ${
             activeTab === 'shared'
-              ? 'border-b-2 border-indigo-600 text-indigo-600'
-              : 'text-gray-500 hover:text-gray-700'
+              ? 'bg-primary-50 dark:bg-primary-600/20 text-primary-700 dark:text-primary-400 shadow-sm ring-1 ring-primary-500/50'
+              : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 ring-1 ring-slate-200 dark:ring-slate-800 hover:ring-slate-300 dark:hover:ring-slate-600 hover:-translate-y-0.5'
           }`}
         >
           Shared with Me
           {sharedDocs.length > 0 && (
-            <span className="ml-2 rounded-full bg-gray-100 px-2 py-0.5 text-xs text-gray-600">
+            <span
+              className={`ml-2 flex h-6 w-6 items-center justify-center rounded-full text-xs font-extrabold ${
+                activeTab === 'shared'
+                  ? 'bg-primary-100 dark:bg-primary-500/20 text-primary-800 dark:text-primary-400'
+                  : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400'
+              }`}
+            >
               {sharedDocs.length}
             </span>
           )}
         </button>
       </div>
 
-      {/* Document grid or empty state */}
-      {docs.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-16 text-center">
-          <div className="mb-4 rounded-full bg-gray-100 p-4">
-            <FileText className="h-8 w-8 text-gray-400" />
-          </div>
-          <h3 className="text-lg font-medium text-gray-900">
-            {isOwnerTab ? 'No documents yet' : 'No shared documents'}
-          </h3>
-          <p className="mt-1 text-sm text-gray-500">
-            {isOwnerTab
-              ? 'Create your first document to get started.'
-              : 'Documents shared with you will appear here.'}
-          </p>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {/* Grid */}
+      {docs.length > 0 ? (
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {docs.map((doc) => (
             <DocumentCard
               key={doc.id}
@@ -135,6 +131,18 @@ export default function DocumentList({ ownedDocs, sharedDocs, loading, onRefetch
               onShare={handleShare}
             />
           ))}
+        </div>
+      ) : (
+        <div className="flex flex-col items-center justify-center py-20 text-center rounded-3xl border border-dashed border-slate-300 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/30">
+          <FileText className="mb-4 h-16 w-16 text-slate-400 dark:text-slate-700" />
+          <h3 className="mb-2 text-xl font-semibold text-slate-900 dark:text-slate-300">
+            {isOwnerTab ? 'No documents yet' : 'No shared documents'}
+          </h3>
+          <p className="mb-6 max-w-sm text-slate-500">
+            {isOwnerTab
+              ? "You haven't created any documents yet. Start writing by creating your first document."
+              : 'Documents that others share with you will appear here.'}
+          </p>
         </div>
       )}
     </div>
